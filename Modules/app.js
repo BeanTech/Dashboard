@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        echarts: './echarts'
+        echarts: './echarts' //where is the directory of echarts
     }
 });
 
@@ -12,10 +12,11 @@ require(
 ],
 
 function(ec){
-console.log('echarts: '  + ec);
 var ecConfig = require('echarts/config');
-console.log('config: ' + ecConfig);
 var zrEvent = require('zrender/tool/event');
+
+//require functions seams from echarts/charts.js
+
 var curIndx = 0;
 var mapType = [
     'china',
@@ -36,11 +37,10 @@ var myChart = ec.init(document.getElementById('main'));
 option = {
     title: {
         text : '全国34个省市自治区',
-        subtext : 'china （滚轮或点击切换）'
+        subtext : 'china '
     },
     tooltip : {
         trigger: 'item',
-        formatter: '滚轮切换或点击进入该省<br/>{b}'
     },
     legend: {
         orient: 'vertical',
@@ -434,6 +434,7 @@ option = {
 };
 
 myChart.setOption(option, true);
+/*
 document.getElementById('main').onmousewheel = function (e){
     var event = e || window.event;
     curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
@@ -453,11 +454,13 @@ document.getElementById('main').onmousewheel = function (e){
 
     zrEvent.stop(event);
 };
+*/
 
 
 myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
     var len = mapType.length;
     var mt = mapType[curIndx % len];
+
     if (mt == 'china') {
         // 全国选择时指定到选中的省份
         var selected = param.selected;
@@ -472,15 +475,25 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
                 break;
             }
         }
-        option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+      console.log(mt);
     }
     else {
-        curIndx = 0;
-        mt = 'china';
-        option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+      console.log('选择的城市： ' + param.target);
     }
+    console.log();
     option.series[0].mapType = mt;
-    option.title.subtext = mt + ' （滚轮或点击切换）';
     myChart.setOption(option, true);
 });
+
+  $('#btnCountryMap').on('click',function(){
+      goToCountryMap();
+  });
+
+  var goToCountryMap = function(){
+    option.series[0].mapType = 'china';
+    myChart.setOption(option, true);
+  };
+
+
+
 });

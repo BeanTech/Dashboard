@@ -479,7 +479,7 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
     }
     else {
       console.log('选择的城市： ' + param.target);
-      getCurrentPosition();
+      getAMap();
     }
     console.log();
     option.series[0].mapType = mt;
@@ -526,7 +526,7 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
 };
 
   var getAMap = function(cityName){
-    var position=new AMap.LngLat(116.397428,39.90923);
+    var position=new AMap.LngLat(116.229807,40.224381);
     var mapObj=new AMap.Map("map",{
     view: new AMap.View2D({//创建地图二维视口
     center:position,//创建中心点坐标
@@ -538,7 +538,7 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
 
 var marker = new AMap.Marker({ //创建自定义点标注
   map:mapObj,
-  position: new AMap.LngLat(116.406326, 39.903942),
+  position: new AMap.LngLat(116.229807, 40.224381),
   offset: new AMap.Pixel(-10,-34)
 });
 marker.setMap(mapObj);

@@ -526,7 +526,7 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
 };
 
   var getAMap = function(cityName){
-    var position=new AMap.LngLat(116.229807,40.224381);
+    var position=new AMap.LngLat(121.559252,31.226885);
     var mapObj=new AMap.Map("map",{
     view: new AMap.View2D({//创建地图二维视口
     center:position,//创建中心点坐标
@@ -535,13 +535,39 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
    }),
    lang:"zh_cn"//设置地图语言类型，默认：中文简体
   });//创建地图实例
+  /*
+  for (var i = 0; i < 500; i ++) {
+        var markerPosition = new AMap.LngLat(sw.lng + lngSpan * (Math.random() * 1),ne.lat - latSpan * (Math.random() * 1));
+        var marker = new AMap.Marker({
+            map:mapObj,
+            position:markerPosition, //基点位置
+            icon:"js_marker.png", //marker图标，直接传递地址url
+            offset:{x:-8,y:-34} //相对于基点的位置
+        });
+        markers.push(marker);
+    }
+*/
 
-var marker = new AMap.Marker({ //创建自定义点标注
-  map:mapObj,
-  position: new AMap.LngLat(116.229807, 40.224381),
-  offset: new AMap.Pixel(-10,-34)
+_.each(shanghaiData, function(elem){
+  console.log('elem: ' + elem.name);
+  var marker = new AMap.Marker({
+      map:mapObj,
+      position:new AMap.LngLat(elem.lng, elem.lat), //基点位置
+      offset:{x:-8,y:-34} //相对于基点的位置
+  });
+  marker.setMap(mapObj);
+});
+
+
+
+/*
+  var marker = new AMap.Marker({ //创建自定义点标注
+    map:mapObj,
+    position: new AMap.LngLat(121.55899, 31.22681),
+    offset: new AMap.Pixel(-10,-34)
 });
 marker.setMap(mapObj);
+*/
 /*
 var marker2 = new AMap.Marker({ //创建自定义点标注
   map:mapObj,
@@ -551,5 +577,16 @@ var marker2 = new AMap.Marker({ //创建自定义点标注
 marker2.setMap(mapObj);
 */
 };
+
+
+var shanghaiData = [
+  {name: "证大大拇指广场", lng:"121.559252",lat:"31.226885"},
+  {name: "娥佩兰(大拇指店)", lng:"121.55899",lat:"31.22681"},
+  {name: "鸥美药妆(联洋广场)", lng:"121.557957",lat:"31.226441"},
+  {name: "浦东嘉里城", lng:"121.563869",lat:"31.212166"},
+  {name: "家乐福(联洋店)", lng:"121.559416",lat:"31.227252"},
+  {name: "联洋广场", lng:"121.557818",lat:"31.226607"},
+  {name: "博览汇广场", lng:"121.559125",lat:"31.210497"}
+];
 
 });

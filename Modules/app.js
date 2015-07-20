@@ -550,12 +550,37 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
 
 _.each(shanghaiData, function(elem){
   console.log('elem: ' + elem.name);
+
   var marker = new AMap.Marker({
       map:mapObj,
+      snippet:elem.name,
       position:new AMap.LngLat(elem.lng, elem.lat), //基点位置
       offset:{x:-8,y:-34} //相对于基点的位置
   });
-  marker.setMap(mapObj);
+
+
+  AMap.event.addListener(marker, 'click', function (result) {
+
+
+    	var infoWindow = new AMap.InfoWindow({
+    		content:"<h3><font face=\"微软雅黑\"color=\"#3366FF\">"+ elem.name +"</font></h3><hr />地址："+ "" + "<br />" + "创建时间：" + "<br />" + "更新时间：" ,
+        		size:new AMap.Size(300, 0),
+        		autoMove:true,
+        		offset:new AMap.Pixel(0,-25)
+    	});
+
+    	infoWindow.open(mapObj, new AMap.LngLat(elem.lng, elem.lat));
+
+
+
+//alert('hi');
+
+	 });//end of listener
+
+
+
+
+     marker.setMap(mapObj);
 });
 
 

@@ -547,10 +547,10 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
         markers.push(marker);
     }
 */
+  var selectedType = $('#selType option:selected').text();
+_.each(shanghai_data, function(elem){
 
-_.each(shanghaiData, function(elem){
-  console.log('elem: ' + elem.name);
-
+  if(elem.channel !== selectedType) return;
   var marker = new AMap.Marker({
       map:mapObj,
       snippet:elem.name,
@@ -563,23 +563,21 @@ _.each(shanghaiData, function(elem){
 
 
     	var infoWindow = new AMap.InfoWindow({
-    		content:"<h3><font face=\"微软雅黑\"color=\"#3366FF\">"+ elem.name +"</font></h3><hr />地址："+ "" + "<br />" + "创建时间：" + "<br />" + "更新时间：" ,
+    		content:"<h3><font face=\"微软雅黑\"color=\"#3366FF\">"
+        + elem.name
+        + "</font></h3><hr />地址："
+        + elem.address
+        + "<br />" + "电话："
+        + elem.telephone +  "<br />"
+        + "更新时间：" ,
         		size:new AMap.Size(300, 0),
         		autoMove:true,
         		offset:new AMap.Pixel(0,-25)
     	});
 
     	infoWindow.open(mapObj, new AMap.LngLat(elem.lng, elem.lat));
-
-
-
-//alert('hi');
-
 	 });//end of listener
-
-
-
-
+console.log(elem.name);
      marker.setMap(mapObj);
 });
 
@@ -603,15 +601,18 @@ marker2.setMap(mapObj);
 */
 };
 
+$('#selType').on('change',function(){
+  getAMap();
+});
 
 var shanghaiData = [
-  {name: "证大大拇指广场", lng:"121.559252",lat:"31.226885"},
-  {name: "娥佩兰(大拇指店)", lng:"121.55899",lat:"31.22681"},
-  {name: "鸥美药妆(联洋广场)", lng:"121.557957",lat:"31.226441"},
-  {name: "浦东嘉里城", lng:"121.563869",lat:"31.212166"},
-  {name: "家乐福(联洋店)", lng:"121.559416",lat:"31.227252"},
-  {name: "联洋广场", lng:"121.557818",lat:"31.226607"},
-  {name: "博览汇广场", lng:"121.559125",lat:"31.210497"}
+  {name: "证大大拇指广场", lng:"121.559252",lat:"31.226885",type:"百货商店", address: "123 路"},
+  {name: "娥佩兰(大拇指店)", lng:"121.55899",lat:"31.22681", type: "百货商店",address: "456 路"},
+  {name: "鸥美药妆(联洋广场)", lng:"121.557957",lat:"31.226441",type:"大卖场",address: "789 路"},
+  {name: "浦东嘉里城", lng:"121.563869",lat:"31.212166",type: "大卖场", address: "各方 路"},
+  {name: "家乐福(联洋店)", lng:"121.559416",lat:"31.227252", type:"便利店",address: "温特 路"},
+  {name: "联洋广场", lng:"121.557818",lat:"31.226607",type:"便利店",address: "发俄国 路"},
+  {name: "博览汇广场", lng:"121.559125",lat:"31.210497",type:"便利店",address: "推荐认同 路"}
 ];
 
 });

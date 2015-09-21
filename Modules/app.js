@@ -491,13 +491,14 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
   });
 
   var goToCountryMap = function(){
+    var myChart1 = ec.init(document.getElementById('main'));
     option.series[0].mapType = 'china';
-    myChart.setOption(option, true);
+    myChart1.setOption(option, true);
   };
 
 
 
-  function getCurrentPosition () { //调用浏览器定位服务
+function getCurrentPosition () { //调用浏览器定位服务
     var mapObj=new AMap.Map("map",{
     view: new AMap.View2D({//创建地图二维视口
     zoom:14, //设置地图缩放级别
@@ -526,6 +527,9 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
 };
 
   var getAMap = function(cityName){
+
+    console.log('enter getAmap.');
+
     var position=new AMap.LngLat(121.559252,31.226885);
     var mapObj=new AMap.Map("map",{
     view: new AMap.View2D({//创建地图二维视口
@@ -535,22 +539,17 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
    }),
    lang:"zh_cn"//设置地图语言类型，默认：中文简体
   });//创建地图实例
-  /*
-  for (var i = 0; i < 500; i ++) {
-        var markerPosition = new AMap.LngLat(sw.lng + lngSpan * (Math.random() * 1),ne.lat - latSpan * (Math.random() * 1));
-        var marker = new AMap.Marker({
-            map:mapObj,
-            position:markerPosition, //基点位置
-            icon:"js_marker.png", //marker图标，直接传递地址url
-            offset:{x:-8,y:-34} //相对于基点的位置
-        });
-        markers.push(marker);
-    }
-*/
+
   var selectedType = $('#selType option:selected').text();
+  var subTotal = $('#txtSubtotal');
+
+  var count = 0;
+
 _.each(shanghai_data, function(elem){
 
   if(elem.channel !== selectedType) return;
+  if(elem && elem.lng && elem.lat) {
+
   var marker = new AMap.Marker({
       map:mapObj,
       snippet:elem.name,
@@ -558,7 +557,7 @@ _.each(shanghai_data, function(elem){
       offset:{x:-8,y:-34} //相对于基点的位置
   });
 
-
+  count++;
   AMap.event.addListener(marker, 'click', function (result) {
 
 
@@ -577,29 +576,17 @@ _.each(shanghai_data, function(elem){
 
     	infoWindow.open(mapObj, new AMap.LngLat(elem.lng, elem.lat));
 	 });//end of listener
-console.log(elem.name);
+
      marker.setMap(mapObj);
-});
+  }
+});//end of _each
+
+  console.log('end of getAmap.');
+subTotal.html('<b> 店数： ' + count + '</b>');
+
+};//end of getAMap();
 
 
-
-/*
-  var marker = new AMap.Marker({ //创建自定义点标注
-    map:mapObj,
-    position: new AMap.LngLat(121.55899, 31.22681),
-    offset: new AMap.Pixel(-10,-34)
-});
-marker.setMap(mapObj);
-*/
-/*
-var marker2 = new AMap.Marker({ //创建自定义点标注
-  map:mapObj,
-  position: new AMap.LngLat(116.407326, 39.907942),
-  offset: new AMap.Pixel(-10,-34)
-});
-marker2.setMap(mapObj);
-*/
-};
 
 $('#selType').on('change',function(){
   getAMap();

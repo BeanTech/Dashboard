@@ -509,13 +509,16 @@ myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
                 break;
             }
         }
-      console.log(mt);
+      console.log('选择的省: ' + mt);
+      $('#selCity').val(mt);
+
     }
     else {
       console.log('选择的城市： ' + param.target);
-      $('#selCity').val(param.target);
-      getAMap();
+
+
     }
+    getAMap();
     console.log();
     option.series[0].mapType = mt;
     myChart.setOption(option, true);
